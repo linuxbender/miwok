@@ -1,0 +1,51 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_round"
+        android:shortcutDisabledMessage="@string/category_numbers"
+        android:shortcutId="numbers"
+        android:shortcutLongLabel="@string/category_numbers"
+        android:shortcutShortLabel="@string/category_numbers">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="ch.theforce.miwok.NumbersActivity"
+            android:targetPackage="ch.theforce.miwok" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:shortcutDisabledMessage="@string/category_family"
+        android:shortcutId="family"
+        android:shortcutLongLabel="@string/category_family"
+        android:shortcutShortLabel="@string/category_family">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="ch.theforce.miwok.FamilyActivity"
+            android:targetPackage="ch.theforce.miwok" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:shortcutDisabledMessage="@string/category_colors"
+        android:shortcutId="colors"
+        android:shortcutLongLabel="@string/category_colors"
+        android:shortcutShortLabel="@string/category_colors">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="ch.theforce.miwok.ColorsActivity"
+            android:targetPackage="ch.theforce.miwok" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:shortcutDisabledMessage="@string/category_phrases"
+        android:shortcutId="phrases"
+        android:shortcutLongLabel="@string/category_phrases"
+        android:shortcutShortLabel="@string/category_phrases">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="ch.theforce.miwok.PhrasesActivity"
+            android:targetPackage="ch.theforce.miwok" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>
