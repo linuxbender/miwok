@@ -14,7 +14,7 @@ import java.util.List;
 public class WordAdapter extends ArrayAdapter<Word> {
 
     public WordAdapter(@NonNull Context context, @NonNull List<Word> objects) {
-        super(context, 0, objects);
+        super(context, R.layout.list_item, objects);
     }
 
     @NonNull
