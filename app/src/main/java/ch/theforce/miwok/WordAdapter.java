@@ -8,14 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class WordAdapter extends ArrayAdapter<Word> {
 
-    public WordAdapter(@NonNull Context context, @NonNull List<Word> objects) {
+    private final int activityColor;
+
+    public WordAdapter(@NonNull Context context, @NonNull List<Word> objects, @NonNull int activityColor) {
         super(context, R.layout.list_item, objects);
+        this.activityColor = activityColor;
     }
 
     @NonNull
@@ -31,6 +35,9 @@ public class WordAdapter extends ArrayAdapter<Word> {
 
         // get current Item
         Word currentWord = getItem(position);
+
+        LinearLayout linearLayout = (LinearLayout) listItemView.findViewById(R.id.detail);
+        linearLayout.setBackgroundResource(this.activityColor);
 
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.lang_eng);
         defaultTextView.setText(currentWord.getDefaultTranslation());
