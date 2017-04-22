@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,6 @@ public class FamilyActivity extends AppCompatActivity {
                         }
                     });
                     mediaPlayer.start();
-                    Toast.makeText(FamilyActivity.this, "playing now", Toast.LENGTH_SHORT).show();
                 }
             }
         });
