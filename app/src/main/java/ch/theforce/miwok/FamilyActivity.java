@@ -1,8 +1,12 @@
 package ch.theforce.miwok;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,7 @@ public class FamilyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
 
-        List<Word> words = new ArrayList<>();
+        final List<Word> words = new ArrayList<>();
         words.add(new Word("mother", "әṭa", R.drawable.family_mother, R.raw.family_mother));
         words.add(new Word("father", "әpә", R.drawable.family_father, R.raw.family_father));
         words.add(new Word("son", "angsi", R.drawable.family_son, R.raw.family_son));
@@ -30,5 +34,15 @@ public class FamilyActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(itemsAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(FamilyActivity.this, words.get(position).getSoundResourceId());
+                mediaPlayer.start();
+                Toast.makeText(FamilyActivity.this, "playing now", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
