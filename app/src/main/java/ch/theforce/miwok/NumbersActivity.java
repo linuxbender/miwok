@@ -1,5 +1,7 @@
 package ch.theforce.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,8 @@ import java.util.List;
 public class NumbersActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
+    private AudioManager audioManager;
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,29 @@ public class NumbersActivity extends AppCompatActivity {
 
         WordAdapter itemsAdapter = new WordAdapter(this, words, R.color.category_numbers);
 
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+
+                if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                    mediaPlayer.start();
+                }
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                    releaseMediaPlayer();
+                }
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
+                    mediaPlayer.pause();
+                    mediaPlayer.seekTo(0);
+                }
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                    mediaPlayer.pause();
+                    mediaPlayer.seekTo(0);
+                }
+            }
+        };
+
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(itemsAdapter);
 
@@ -42,22 +69,31 @@ public class NumbersActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 releaseMediaPlayer();
-                mediaPlayer = MediaPlayer.create(NumbersActivity.this, words.get(position).getSoundResourceId());
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        releaseMediaPlayer();
-                    }
-                });
-                mediaPlayer.start();
-                Toast.makeText(NumbersActivity.this, "playing now", Toast.LENGTH_SHORT).show();
+
+                // Request audio focus for audio playback
+                int result = audioManager.requestAudioFocus(audioFocusChangeListener,
+                        // Use the music stream
+                        AudioManager.STREAM_MUSIC,
+                        // Request focus for a short time
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    mediaPlayer = MediaPlayer.create(NumbersActivity.this, words.get(position).getSoundResourceId());
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            releaseMediaPlayer();
+                        }
+                    });
+                    mediaPlayer.start();
+                    Toast.makeText(NumbersActivity.this, "playing now", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
     }
 
     /**
-     * Clean up the media player by releasing its resources.
+     * Clean up the media player and audio focus by releasing its resources.
      */
     private void releaseMediaPlayer() {
         // If the media player is not null, then it may be currently playing a sound.
@@ -70,18 +106,14 @@ public class NumbersActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             mediaPlayer = null;
+            // relase audio focus
+            audioManager.abandonAudioFocus(audioFocusChangeListener);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        releaseMediaPlayer();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         releaseMediaPlayer();
     }
 }
