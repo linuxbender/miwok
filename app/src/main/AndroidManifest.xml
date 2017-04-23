@@ -14,31 +14,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data
-                android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
         </activity>
-        <activity
-            android:name=".NumbersActivity"
-            android:label="@string/category_numbers"
-            android:parentActivityName="ch.theforce.miwok.MainActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.theforce.miwok.MainActivity" />
-        </activity>
-        <activity
-            android:name=".PhrasesActivity"
-            android:label="@string/category_phrases"
-            android:parentActivityName="ch.theforce.miwok.MainActivity" />
-        <activity
-            android:name=".FamilyActivity"
-            android:label="@string/category_family"
-            android:parentActivityName="ch.theforce.miwok.MainActivity" />
-        <activity
-            android:name=".ColorsActivity"
-            android:label="@string/category_colors"
-            android:parentActivityName="ch.theforce.miwok.MainActivity" />
     </application>
 
 </manifest>
